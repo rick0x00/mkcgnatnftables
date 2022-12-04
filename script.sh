@@ -18,6 +18,15 @@ echo "net.ipv4.conf.all.forwarding=1" >> /etc/sysctl.d/IPv4-forwarding.conf
 sysctl -p /etc/sysctl.d/IPv4-forwarding.conf
 
 echo "$fence"
+echo "Enable Available Kernel Modules for NAT"
+echo "$line"
+echo "" >> /etc/modules ;
+echo "# Start Add modules for best CGNAT" >> /etc/modules ;
+for i in $(find /lib/modules/$(uname -r) -name ??*nat* -print | grep -i netfilter |  sed 's/.*\///' | sed 's/\..*\.gz$//; s/\.ko$//'); do 
+    echo $i >> /etc/modules ;
+done
+
+echo "$fence"
 echo "Making Directories"
 echo "$line"
 mkdir -p /etc/cgnat/confs/
